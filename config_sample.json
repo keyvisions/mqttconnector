@@ -1,0 +1,16 @@
+{
+    "db": {
+        "user": "...",
+        "password": "...",
+        "server": "...",
+        "database": "...",
+        "logcmd": "insert into <tablename> (<topic>, <message>) VALUES (@topic, @message)",
+        "options": {
+            "enableArithAbort": true
+        },
+        "log": "./mqttconnector.log",
+        "mqttBroker": "mqtt://192.168.1.100",
+        "subscribe": "topic",
+        "publish": ""
+    }
+}

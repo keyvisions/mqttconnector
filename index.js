@@ -1,18 +1,5 @@
 const fs = require('fs');
-const config = JSON.parse(fs.readFileSync('./config.json').toString()) || {
-    "db": {
-        "user": "username",
-        "password": "password",
-        "server": "...",
-        "database": "...",
-        "options": {
-            "enableArithAbort": true
-        },
-        "log": "./mqttconnector.log",
-        "mqttBroker": "mqtt://192.168.1.100",
-        "subscribe": "topic"
-    }
-};
+const config = JSON.parse(fs.readFileSync('./config.json').toString() || fs.readFileSync('./config_sample.json').toString());
 
 const sql = require('mssql');
 const mqtt = require('mqtt');
@@ -47,7 +34,7 @@ mqttClient.on('message', (topic, message, packet) => {
             return pool.request()
                 .input('topic', sql.NVarChar(256), topic)
                 .input('message', sql.NVarChar(sql.MAX), message.toString())
-                .query('insert into tVMCMQTT (fTopic, fMessage) VALUES (@topic, @message)');
+                .query(config.db.logcmd);
         })
         .catch(err => {
             log.entry('sql.connect.error', err.message);
